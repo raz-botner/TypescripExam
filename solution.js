@@ -3,6 +3,8 @@
 let addTask=document.querySelector("#todo-save")
 let inputTask=document.querySelector("#todo-item")
 let listTasks=document.querySelector("#todo-list")
+let deleteAll=document.querySelector("#todo-delall")
+
 
 let arr=JSON.parse(localStorage.getItem("array"))
 let count=localStorage.getItem("id")
@@ -67,3 +69,19 @@ function showTask(newTask){
     listTasks.appendChild(divRow)
     
 }
+
+
+deleteAll.addEventListener("click",(e)=>{
+
+    if(confirm("are you sure that you want to delete all your task?")){
+        
+        while(listTasks.firstChild)
+            listTasks.firstChild.remove()
+
+        arr=[]
+        count=1
+        localStorage.removeItem("array")
+        localStorage.removeItem("id")
+
+    }
+})

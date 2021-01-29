@@ -16,6 +16,7 @@ function showLocalStorageTask(){
     if(arr)
         for(const task of arr){
             showTask(task)
+            checkDoneOrNot(task,listTasks.lastChild.lastChild)
         }
 }
 
@@ -45,6 +46,7 @@ addTask.addEventListener("click",(e)=>{
 
     count++
     arr.push(newTask)
+    inputTask.value=""
 
     localStorage.setItem("id",count)
     localStorage.setItem("array",JSON.stringify(arr))
@@ -58,20 +60,26 @@ function showTask(newTask){
     let divVBtn=document.createElement("div")
 
     divRow.classList.add("todo-row")
+    divTask.id=newTask.id
     divTask.classList.add("todo-item")
     divVBtn.classList.add("VBtn")
 
     divTask.innerText=newTask.details
     divVBtn.innerText= `V`
 
+    divVBtn.addEventListener("click",(event)=>{
+        addDoneTask(event.target)
+    })
+
     divRow.appendChild(divTask)
     divRow.appendChild(divVBtn)
     listTasks.appendChild(divRow)
+
     
 }
 
 
-deleteAll.addEventListener("click",(e)=>{
+deleteAll.addEventListener("click",()=>{
 
     if(confirm("are you sure that you want to delete all your task?")){
         
@@ -85,3 +93,37 @@ deleteAll.addEventListener("click",(e)=>{
 
     }
 })
+
+function addDoneTask(event){
+
+    let x=event.previousSibling.id
+    let theTask
+
+    for(const task of arr){
+
+        if(task.id==x){
+            theTask=task
+            break
+        }
+    }
+    if(theTask.status==0){
+        theTask.status=1
+        localStorage.setItem("array",JSON.stringify(arr))
+        checkDoneOrNot(theTask,event)
+    }else{
+        theTask.status=0
+        localStorage.setItem("array",JSON.stringify(arr))
+        checkDoneOrNot(theTask,event)
+    }
+}
+
+function checkDoneOrNot(task,e){
+
+    console.log(e)
+    console.log(task.status)
+
+    if(task.status)
+        e.previousSibling.classList.add("done")
+    else
+        e.previousSibling.classList.remove("done")
+}

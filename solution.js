@@ -4,8 +4,18 @@ let addTask=document.querySelector("#todo-save")
 let inputTask=document.querySelector("#todo-item")
 let listTasks=document.querySelector("#todo-list")
 
-let arr=localStorage.getItem("array")
+let arr=JSON.parse(localStorage.getItem("array"))
 let count=localStorage.getItem("id")
+
+showLocalStorageTask()
+
+function showLocalStorageTask(){
+
+    if(arr)
+        for(const task of arr){
+            showTask(task)
+        }
+}
 
 if(!arr)
     arr=[]
@@ -29,6 +39,17 @@ addTask.addEventListener("click",(e)=>{
     e.preventDefault()
 
     let newTask=new Task(count,inputTask.value)
+    showTask(newTask)
+
+    count++
+    arr.push(newTask)
+
+    localStorage.setItem("id",count)
+    localStorage.setItem("array",JSON.stringify(arr))
+
+})
+
+function showTask(newTask){
 
     let divRow=document.createElement("div")
     let divTask=document.createElement("div")
@@ -44,7 +65,5 @@ addTask.addEventListener("click",(e)=>{
     divRow.appendChild(divTask)
     divRow.appendChild(divVBtn)
     listTasks.appendChild(divRow)
-
-
-
-})
+    
+}

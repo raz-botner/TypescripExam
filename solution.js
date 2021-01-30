@@ -4,6 +4,7 @@ let addTask=document.querySelector("#todo-save")
 let inputTask=document.querySelector("#todo-item")
 let listTasks=document.querySelector("#todo-list")
 let deleteAll=document.querySelector("#todo-delall")
+let deleteDone=document.querySelector("#todo-delcom")
 
 
 let arr=JSON.parse(localStorage.getItem("array"))
@@ -26,7 +27,6 @@ if(!arr)
 if(!count)
     count=1
 
-
 class Task{
 
     constructor(id,details,status=0){
@@ -36,7 +36,6 @@ class Task{
         this.status=status;
     }
 }
-
 
 addTask.addEventListener("click",(e)=>{
     e.preventDefault()
@@ -78,7 +77,6 @@ function showTask(newTask){
     
 }
 
-
 deleteAll.addEventListener("click",()=>{
 
     if(confirm("are you sure that you want to delete all your task?")){
@@ -119,11 +117,28 @@ function addDoneTask(event){
 
 function checkDoneOrNot(task,e){
 
-    console.log(e)
-    console.log(task.status)
-
     if(task.status)
         e.previousSibling.classList.add("done")
     else
         e.previousSibling.classList.remove("done")
 }
+
+deleteDone.addEventListener("click",()=>{
+
+    for(let i=0;i<arr.length;i++){
+        if(arr[i].status){
+            for(let j=0;j<listTasks.childElementCount;j++){
+
+                e=listTasks.childNodes[j]
+
+                if(arr[i].id==e.firstChild.id){
+                    e.remove()
+                    arr.splice(i,1)
+                    localStorage.setItem("array",JSON.stringify(arr))
+                    i--
+                    break
+                }
+            }
+        }
+    }
+})

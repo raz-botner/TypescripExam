@@ -56,7 +56,7 @@ function showTask(newTask){
 
     let divRow=document.createElement("div")
     let divTask=document.createElement("div")
-    let divVBtn=document.createElement("div")
+    let divVBtn=document.createElement("button")
 
     divRow.classList.add("todo-row")
     divTask.id=newTask.id
@@ -64,7 +64,7 @@ function showTask(newTask){
     divVBtn.classList.add("VBtn")
 
     divTask.innerText=newTask.details
-    divVBtn.innerText= `V`
+    divVBtn.innerHTML= `&#x2713;`
 
     divVBtn.addEventListener("click",(event)=>{
         addDoneTask(event.target)
@@ -73,8 +73,6 @@ function showTask(newTask){
     divRow.appendChild(divTask)
     divRow.appendChild(divVBtn)
     listTasks.appendChild(divRow)
-
-    
 }
 
 deleteAll.addEventListener("click",()=>{
@@ -88,7 +86,6 @@ deleteAll.addEventListener("click",()=>{
         count=1
         localStorage.removeItem("array")
         localStorage.removeItem("id")
-
     }
 })
 
